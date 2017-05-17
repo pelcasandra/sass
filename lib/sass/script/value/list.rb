@@ -99,12 +99,13 @@ module Sass::Script::Value
         return Sass::Script::Parser.precedence_of(element.separator) <= precedence
       end
 
-      return false unless separator == :space
+      return false unless (separator == :space || separator == :merge)
       return false unless element.is_a?(Sass::Script::Tree::UnaryOperation)
       element.operator == :minus || element.operator == :plus
     end
 
     def sep_str(opts = options)
+      return '' if separator == :merge
       return ' ' if separator == :space
       return ',' if opts && opts[:style] == :compressed
       ', '
